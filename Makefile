@@ -43,7 +43,7 @@ $(VMEXE): $(OBJ) $(MAINOBJ)
 	$(LN) -o $@ $(OBJ) $(MAINOBJ)
 
 clean:
-	$(RM) $(TESTOBJ) $(OBJ) $(TESTEXE) $(VMEXE)
+	$(RM) $(TESTOBJ) $(OBJ) $(MAINOBJ) $(TESTEXE) $(VMEXE)
 
 test: $(TESTEXE)
 	./$(TESTEXE)
