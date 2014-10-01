@@ -20,8 +20,9 @@
 #define _yla_stack_h
 
 #include <stddef.h>
+#include <stdint.h>
 
-typedef int yla_stack_type;
+typedef uint16_t yla_stack_type;
 
 typedef struct {
     int *ptr;
