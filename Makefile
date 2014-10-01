@@ -21,10 +21,14 @@ LNFLAGS=
 
 RM     = rm -rf
 
+VMEXE=ylavm
 TESTEXE=tests
 
 OBJ=\
-yla_stack.o
+yla_stack.o\
+yla_vm.o
+
+MAINOBJ=yla_vm_main.o
 
 TESTOBJ=\
 yla_tests.o\
@@ -35,8 +39,11 @@ yla_stack_test.o
 .SUFFIXES: .o .c
 .PHONY: clean test
 
+$(VMEXE): $(OBJ) $(MAINOBJ)
+	$(LN) -o $@ $(OBJ) $(MAINOBJ)
+
 clean:
-	$(RM) $(TESTOBJ) $(OBJ) $(TESTEXE)
+	$(RM) $(TESTOBJ) $(OBJ) $(TESTEXE) $(VMEXE)
 
 test: $(TESTEXE)
 	./$(TESTEXE)
