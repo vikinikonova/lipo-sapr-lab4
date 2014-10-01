@@ -23,18 +23,23 @@ RM     = rm -rf
 
 TESTEXE=tests
 
+OBJ=\
+yla_stack.o
+
 TESTOBJ=\
 yla_tests.o\
-yla_test_test.o
+yla_test_test.o\
+yla_stack_test.o
+
 
 .SUFFIXES: .o .c
 .PHONY: clean test
 
 clean:
-	$(RM) $(TESTOBJ) $(TESTEXE)
+	$(RM) $(TESTOBJ) $(OBJ) $(TESTEXE)
 
 test: $(TESTEXE)
 	./$(TESTEXE)
 
-tests: $(TESTOBJ)
-	$(LN) -o $@ $(TESTOBJ)
+$(TESTEXE): $(OBJ) $(TESTOBJ)
+	$(LN) -o $@ $(OBJ) $(TESTOBJ)
