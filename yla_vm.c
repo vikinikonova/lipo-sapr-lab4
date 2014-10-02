@@ -174,3 +174,32 @@ int yla_vm_read_sizes(yla_vm *vm, unsigned char **program)
 
 	return 1;
 }
+
+/*
+Vartable
+*/
+int yla_vm_get_var(yla_vm *vm, size_t index, yla_stack_type *value)
+{
+	if (!vm) {
+		return 0;
+	}
+	if (index >= vm->vartable_size) {
+		return 0;
+	}
+
+	*value = vm->vartable[index];
+
+	return 1;
+}
+
+int yla_vm_set_var(yla_vm *vm, size_t index, yla_stack_type value)
+{
+	if (!vm) {
+		return 0;
+	}
+	if (index >= vm->vartable_size) {
+		return 0;
+	}
+
+	vm->vartable[index] = value;
+}
