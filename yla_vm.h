@@ -36,6 +36,8 @@
 #define ERROR_OK 0
 #define ERROR_NO_PROGRAM_CODE 1
 #define ERROR_CODE_SEG_EXCEED 2
+#define ERROR_DIV_BY_ZERO 3
+#define ERROR_UNKNOWN_COMMAND 4
 
 /*
 Executable program structure:
@@ -84,7 +86,7 @@ int yla_vm_done(yla_vm *vm);
 /**
  * Run program from current place to halt
  **/
-void yla_vm_run(yla_vm *vm);
+int yla_vm_run(yla_vm *vm);
 
 /**
  * Make only one step (perform one command)

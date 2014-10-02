@@ -203,3 +203,92 @@ int yla_vm_set_var(yla_vm *vm, size_t index, yla_stack_type value)
 
 	vm->vartable[index] = value;
 }
+
+/*
+Perform command by code of operation
+*/
+int do_command(yla_vm *vm, unsigned char cop)
+{
+	yla_stack_type op1;
+	yla_stack_type op2;
+	yla_stack_type res;
+
+	switch(cop) {
+
+		case CNOP:	
+			break;
+
+		case CPUSH:
+			if (!yla_vm_get_value(vm, &res)) {
+				return 0;
+			}
+			if (!yla_stack_push(&vm->stack, res)) {
+				return 0;
+			}
+			break;
+
+		case CADD:
+			if (!yla_stack_pull(&vm->stack, &op1)) {
+				return 0;
+			}
+			if (!yla_stack_pull(&vm->stack, &op2)) {
+				return 0;
+			}
+			res = op2 + op1;
+			if (!yla_stack_push(&vm->stack, res)) {
+				return 0;
+			}
+			break;
+
+		case CSUB: 
+			if (!yla_stack_pull(&vm->stack, &op1)) {
+				return 0;
+			}
+			if (!yla_stack_pull(&vm->stack, &op2)) {
+				return 0;
+			}
+			res = op2 - op1;
+			if (!yla_stack_push(&vm->stack, res)) {
+				return 0;
+			}
+			break;
+
+		case CMULT:
+			if (!yla_stack_pull(&vm->stack, &op1)) {
+				return 0;
+			}
+			if (!yla_stack_pull(&vm->stack, &op2)) {
+				return 0;
+			}
+			res = op2 * op1;
+			if (!yla_stack_push(&vm->stack, res)) {
+				return 0;
+			}
+			break;
+
+		case CDIV: 
+			if (!yla_stack_pull(&vm->stack, &op1)) {
+				return 0;
+			}
+			if (!yla_stack_pull(&vm->stack, &op2)) {
+				return 0;
+			}
+			if (op1==0) {
+				vm->last_error = ERROR_DIV_BY_ZERO;
+				return 0;
+			}
+			res = op2 / op1;
+			if (!yla_stack_push(&vm->stack, res)) {
+				return 0;
+			}
+			break;
+
+		case CHALT:
+			return -1;
+
+		default:
+			vm->last_error = ERROR_UNKNOWN_COMMAND;
+			return 0;
+	}
+	return 1;
+}
