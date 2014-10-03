@@ -32,11 +32,11 @@ int yla_vm_get_var(yla_vm *vm, size_t index, yla_stack_type *value);
 
 yla_stack_type yla_vm_get_value_internal(unsigned char *start);
 
-
 int yla_vm_read_header(yla_vm *vm, unsigned char *program, size_t program_size);
 int yla_vm_check_magic(unsigned char** program);
 int yla_vm_read_sizes(yla_vm *vm, unsigned char **program);
 
+int yla_vm_do_command_internal(yla_vm *vm, unsigned char cop);
 
 /*
 Public functions
@@ -96,7 +96,7 @@ int yla_vm_do_command(yla_vm *vm)
 		return 0;
 	}
 	
-	unsigned char cop = vm->program[vm->pc++];
+	unsigned char cop = vm->code[vm->pc++];
 	
 	return yla_vm_do_command_internal(vm, cop);
 }
