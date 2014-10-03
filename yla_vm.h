@@ -76,22 +76,26 @@ TODO: move this structure on implementation level
 
 /**
  * Initialize virtual machine with block of program
+ * @return 0: error, 1: ok
  **/
 int yla_vm_init(yla_vm *vm, unsigned char *program, size_t program_size);
 
 /**
  * Deinitialize virtual machine. 
  * Calling this function after run required
+ * @return 0: error, 1: ok
  **/ 
 int yla_vm_done(yla_vm *vm);
 
 /**
  * Run program from current place to halt
+ * @return 0: error, 1: ok
  **/
 int yla_vm_run(yla_vm *vm);
 
 /**
  * Make only one step (perform one command)
+ * @return -1: halt, 0: error, 1: ok
  */ 
 int yla_vm_do_command(yla_vm *vm);
 

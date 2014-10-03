@@ -80,6 +80,27 @@ int yla_vm_done(yla_vm *vm)
 	return 1;
 }
 
+int yla_vm_run(yla_vm *vm)
+{
+	int cmd_result;
+	while((cmd_result = yla_vm_do_command(vm)) == 1);
+	if (cmd_result == -1) {
+		return 1;
+	}
+	return 0;
+}
+
+int yla_vm_do_command(yla_vm *vm)
+{
+	if (vm->pc + 1 >= vm->pc) {
+		return 0;
+	}
+	
+	unsigned char cop = vm->program[vm->pc++];
+	
+	return yla_vm_do_command_internal(vm, cop);
+}
+
 
 /*
 Private functions
@@ -235,7 +256,7 @@ int yla_vm_stack_push(yla_vm *vm, yla_stack_type value)
 /*
 Perform command by code of operation
 */
-int do_command(yla_vm *vm, unsigned char cop)
+int yla_vm_do_command_internal(yla_vm *vm, unsigned char cop)
 {
 	yla_stack_type op1;
 	yla_stack_type op2;
