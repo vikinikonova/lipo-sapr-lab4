@@ -99,6 +99,15 @@ int yla_vm_run(yla_vm *vm);
  */ 
 int yla_vm_do_command(yla_vm *vm);
 
+/**
+ * Returns text of last error.
+ * @param vm virtual machine structure
+ * @param buf pointer to char to buffer to fill last error text
+ * @param buf_len lenght of buffer to fill
+ * @return 0 if all ok or required buffer lenght to error message if unsuite
+ **/
+int yla_vm_last_error_text(yla_vm *vm, char *buf, int buf_len);
+
 /*
 TODO: Add/Remove breakpoints
 */

@@ -38,6 +38,8 @@ int yla_vm_read_sizes(yla_vm *vm, unsigned char **program);
 
 int yla_vm_do_command_internal(yla_vm *vm, unsigned char cop);
 
+char *yla_vm_error_message(int error_code);
+
 /*
 Public functions
 */
@@ -57,6 +59,8 @@ int yla_vm_init(yla_vm *vm, unsigned char *program, size_t program_size)
 	vm->vartable = calloc(vm->vartable_size, sizeof(yla_stack_type));
 	vm->code = malloc(vm->code_size);
 	memcpy(vm->code, program + HEADER_SIZE, program_size - HEADER_SIZE);
+	
+	vm->last_error = ERROR_OK;
 
 	return 1;
 }
@@ -83,24 +87,69 @@ int yla_vm_done(yla_vm *vm)
 int yla_vm_run(yla_vm *vm)
 {
 	int cmd_result;
-	while((cmd_result = yla_vm_do_command(vm)) == 1);
-	if (cmd_result == -1) {
-		return 1;
+
+	if (!vm) {
+		return 0;
 	}
-	return 0;
+
+	if (vm->code) {
+		free(vm->code);
+	}
+
+	while(1) {
+		if (vm->pc + 1 >= vm->pc) {
+			return 0;
+		}
+		unsigned char cop = vm->code[vm->pc++];
+
+		cmd_result = yla_vm_do_command_internal(vm, cop);
+		
+		if (cmd_result == -1) {
+			return 1;
+		}
+		if (cmd_result == 0) {
+			return 0;
+		}
+	}
 }
 
 int yla_vm_do_command(yla_vm *vm)
 {
+	if (!vm) {
+		return 0;
+	}
+
+	if (vm->code) {
+		free(vm->code);
+	}
+
 	if (vm->pc + 1 >= vm->pc) {
 		return 0;
 	}
-	
 	unsigned char cop = vm->code[vm->pc++];
 	
 	return yla_vm_do_command_internal(vm, cop);
 }
 
+int yla_vm_last_error_text(yla_vm *vm, char *buf, int buf_len)
+{
+	char *error_message;
+	int message_len;
+
+	if (!vm) {
+		return 0;
+	}
+
+	error_message = yla_vm_error_message(vm->last_error);
+	message_len = strlen(error_message) + 1;
+	if (buf == NULL || buf_len <= message_len) {
+		return message_len;
+	}
+
+	strcpy(buf, error_message);
+
+	return 0;
+}
 
 /*
 Private functions
@@ -340,4 +389,29 @@ int yla_vm_do_command_internal(yla_vm *vm, unsigned char cop)
 			return 0;
 	}
 	return 1;
+}
+
+/*
+Error messages
+*/
+char *yla_vm_error_message(int error_code)
+{
+	switch(error_code) {
+		case ERROR_OK:
+			return "No error";
+		case ERROR_NO_PROGRAM_CODE:
+			return "No program code";
+		case ERROR_CODE_SEG_EXCEED:
+			return "Code segment exceed";
+		case ERROR_DIV_BY_ZERO:
+			return "Divide by zero";
+		case ERROR_UNKNOWN_COMMAND:
+			return "Unknown command";
+		case ERROR_STACK_EMPTY:
+			return "Empty stack";
+		case ERROR_STACK_FULL:
+			return "Stack full_value";
+		default:
+			return "Unknown error";
+	}
 }
