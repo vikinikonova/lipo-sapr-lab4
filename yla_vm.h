@@ -22,6 +22,7 @@
 #define _yla_vm_h
 
 #include "yla_stack.h"
+#include "yla_cop.h"
 
 #define MAGIC_SIZE 3
 #define MAGIC_CODE1 0x796c
@@ -59,7 +60,7 @@ typedef struct {
 	yla_stack stack;
 	size_t stack_size;
 
-	unsigned char *code;
+	yla_cop_type *code;
 	size_t code_size;
 
 	yla_int_type *vartable;
@@ -78,7 +79,7 @@ TODO: move this structure on implementation level
  * Initialize virtual machine with block of program
  * @return 0: error, 1: ok
  **/
-int yla_vm_init(yla_vm *vm, unsigned char *program, size_t program_size);
+int yla_vm_init(yla_vm *vm, yla_cop_type *program, size_t program_size);
 
 /**
  * Deinitialize virtual machine. 

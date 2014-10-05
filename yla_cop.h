@@ -21,6 +21,8 @@
 #ifndef _yla_cop_h
 #define _yla_cop_h
 
+typedef unsigned char yla_cop_type;
+
 /*
 codes of operations
 */
