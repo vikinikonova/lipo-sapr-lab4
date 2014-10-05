@@ -35,12 +35,12 @@
 #define MAX_VARTABLE_SIZE 65536
 
 #define ERROR_OK 0
-#define ERROR_NO_PROGRAM_CODE 1
-#define ERROR_CODE_SEG_EXCEED 2
-#define ERROR_DIV_BY_ZERO 3
-#define ERROR_UNKNOWN_COMMAND 4
-#define ERROR_STACK_EMPTY 5
-#define ERROR_STACK_FULL 6
+#define ERROR_NO_PROGRAM_CODE (-1)
+#define ERROR_CODE_SEG_EXCEED (-2)
+#define ERROR_DIV_BY_ZERO (-3)
+#define ERROR_UNKNOWN_COMMAND (-4)
+#define ERROR_STACK_EMPTY (-5)
+#define ERROR_STACK_FULL (-6)
 
 /*
 Executable program structure:
