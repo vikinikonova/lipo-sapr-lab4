@@ -33,7 +33,7 @@ void yla_stack_done(yla_stack* stack)
     free(stack->ptr);
 }
 
-int yla_stack_push(yla_stack* stack, yla_stack_type value)
+int yla_stack_push(yla_stack* stack, yla_int_type value)
 {
     if (stack->count >= stack->size) {
         return 0;
@@ -42,7 +42,7 @@ int yla_stack_push(yla_stack* stack, yla_stack_type value)
     return 1;
 }
 
-int yla_stack_pull(yla_stack* stack, yla_stack_type *result)
+int yla_stack_pull(yla_stack* stack, yla_int_type *result)
 {
     if (stack->count == 0) {
         return 0;
@@ -51,7 +51,7 @@ int yla_stack_pull(yla_stack* stack, yla_stack_type *result)
     return 1;
 }
 
-int yla_stack_set_deep(yla_stack* stack, size_t index, yla_stack_type value)
+int yla_stack_set_deep(yla_stack* stack, size_t index, yla_int_type value)
 {
     if (stack->count < index) {
         return 0;
@@ -60,7 +60,7 @@ int yla_stack_set_deep(yla_stack* stack, size_t index, yla_stack_type value)
     return 1;
 }
 
-int yla_stack_get_deep(yla_stack* stack, size_t index, yla_stack_type *result)
+int yla_stack_get_deep(yla_stack* stack, size_t index, yla_int_type *result)
 {
     if (stack->count < index) {
         return 0;
@@ -69,7 +69,7 @@ int yla_stack_get_deep(yla_stack* stack, size_t index, yla_stack_type *result)
     return 1;
 }
 
-int yla_stack_top(yla_stack* stack, yla_stack_type *result)
+int yla_stack_top(yla_stack* stack, yla_int_type *result)
 {
     if (stack->count == 0) {
         return 0;

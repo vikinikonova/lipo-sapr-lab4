@@ -24,7 +24,7 @@ int test_init_n()
     yla_stack stack;
     yla_stack_init(&stack, 3);
 
-    yla_stack_type result = 0;
+    yla_int_type result = 0;
 
     YLATEST_ASSERT_TRUE(yla_stack_is_empty(&stack), "stack must empty just after creating");
     YLATEST_ASSERT_FALSE(yla_stack_is_full(&stack), "stack size more then 0 couldn't be full just after creating");
@@ -62,13 +62,13 @@ YLATEST_BEGIN(yla_stack_test)
 YLATEST_END
 
 /*
-int yla_stack_push(yla_stack* stack, yla_stack_type value);
-int yla_stack_pull(yla_stack* stack, yla_stack_type *result);
+int yla_stack_push(yla_stack* stack, yla_int_type value);
+int yla_stack_pull(yla_stack* stack, yla_int_type *result);
 
-int yla_stack_set_deep(yla_stack* stack, size_t index, yla_stack_type value);
-int yla_stack_get_deep(yla_stack* stack, size_t index, yla_stack_type *result);
+int yla_stack_set_deep(yla_stack* stack, size_t index, yla_int_type value);
+int yla_stack_get_deep(yla_stack* stack, size_t index, yla_int_type *result);
 
-int yla_stack_top(yla_stack* stack, yla_stack_type *result);
+int yla_stack_top(yla_stack* stack, yla_int_type *result);
 
 int yla_stack_is_empty(yla_stack* stack);
 int yla_stack_is_full(yla_stack* stack);

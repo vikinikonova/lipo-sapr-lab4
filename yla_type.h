@@ -1,4 +1,6 @@
 /*
+    Types of value used for Virtual Machine
+
     This file is part of YLA VM (Yet another Language for Academic purpose: Virtual Machine).
 
     YLA VM is free software: you can redistribute it and/or modify
@@ -16,32 +18,4 @@
 
 */
 
-#ifndef _yla_stack_h
-#define _yla_stack_h
-
-#include <stddef.h>
-#include <stdint.h>
-
-#include "yla_type.h"
-
-typedef struct {
-    int *ptr;
-    size_t size;
-    size_t count;
-} yla_stack;
-
-void yla_stack_init(yla_stack* stack, size_t size);
-void yla_stack_done(yla_stack* stack);
-
-int yla_stack_push(yla_stack* stack, yla_int_type value);
-int yla_stack_pull(yla_stack* stack, yla_int_type *result);
-
-int yla_stack_set_deep(yla_stack* stack, size_t index, yla_int_type value);
-int yla_stack_get_deep(yla_stack* stack, size_t index, yla_int_type *result);
-
-int yla_stack_top(yla_stack* stack, yla_int_type *result);
-
-int yla_stack_is_empty(yla_stack* stack);
-int yla_stack_is_full(yla_stack* stack);
-
-#endif
+typedef uint16_t yla_int_type;

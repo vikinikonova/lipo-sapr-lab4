@@ -28,7 +28,7 @@
 #define MAGIC_CODE2 0x615f
 #define MAGIC_CODE3 0x766d
 
-#define HEADER_SIZE ((MAGIC_SIZE + 3) * sizeof(yla_stack_type))
+#define HEADER_SIZE ((MAGIC_SIZE + 3) * sizeof(yla_int_type))
 #define MAX_CODE_SIZE 65536
 #define MAX_STACK_SIZE 65536
 #define MAX_VARTABLE_SIZE 65536
@@ -43,12 +43,12 @@
 
 /*
 Executable program structure:
-magic1: yla_stack_type
-magic2: yla_stack_type
-magic3: yla_stack_type
-stack_size: yla_stack_type
-vartable_size: yla_stack_type
-code_size: yla_stack_type
+magic1: yla_int_type
+magic2: yla_int_type
+magic3: yla_int_type
+stack_size: yla_int_type
+vartable_size: yla_int_type
+code_size: yla_int_type
 code: array of char
 */
 
@@ -62,7 +62,7 @@ typedef struct {
 	unsigned char *code;
 	size_t code_size;
 
-	yla_stack_type *vartable;
+	yla_int_type *vartable;
     size_t vartable_size;
 
 	size_t pc;
