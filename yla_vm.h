@@ -39,8 +39,8 @@
 #define YLA_VM_ERROR_CODE_SEG_EXCEED (-2)
 #define YLA_VM_ERROR_DIV_BY_ZERO (-3)
 #define YLA_VM_ERROR_UNKNOWN_COMMAND (-4)
-#define YLA_VM_TACK_EMPTY (-5)
-#define YLA_VM_TACK_FULL (-6)
+#define YLA_VM_ERROR_STACK_EMPTY (-5)
+#define YLA_VM_ERROR_STACK_FULL (-6)
 
 /*
 Executable program structure:
