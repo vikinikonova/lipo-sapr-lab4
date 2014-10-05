@@ -52,7 +52,7 @@ int yla_vm_init(yla_vm *vm, yla_cop_type *program, size_t program_size)
 	}
 
 	if (!yla_vm_read_header(vm, program, program_size)) {
-		vm->last_error = ERROR_NO_PROGRAM_CODE;
+		vm->last_error = YLA_VM_ERROR_NO_PROGRAM_CODE;
 		return 0;
 	}
 	
@@ -61,7 +61,7 @@ int yla_vm_init(yla_vm *vm, yla_cop_type *program, size_t program_size)
 	vm->code = malloc(vm->code_size);
 	memcpy(vm->code, program + HEADER_SIZE, program_size - HEADER_SIZE);
 	
-	vm->last_error = ERROR_OK;
+	vm->last_error = YLA_VM_ERROR_OK;
 
 	return 1;
 }
@@ -162,7 +162,7 @@ Get values
 int yla_vm_get_value(yla_vm *vm, yla_int_type *value)
 {
 	if (vm->pc + sizeof(yla_int_type) >= vm->pc) {
-		vm->last_error = ERROR_CODE_SEG_EXCEED;
+		vm->last_error = YLA_VM_ERROR_CODE_SEG_EXCEED;
 		return 0;
 	}
 	
@@ -288,7 +288,7 @@ Stack
 int yla_vm_stack_pull(yla_vm *vm, yla_int_type *value)
 {
 	if (!yla_stack_pull(&vm->stack, value)) {
-		vm->last_error = ERROR_STACK_EMPTY;
+		vm->last_error = YLA_VM_ERROR_STACK_EMPTY;
 		return 0;
 	}
 	return 1;
@@ -297,7 +297,7 @@ int yla_vm_stack_pull(yla_vm *vm, yla_int_type *value)
 int yla_vm_stack_push(yla_vm *vm, yla_int_type value)
 {
 	if (!yla_stack_push(&vm->stack, value)) {
-		vm->last_error = ERROR_STACK_FULL;
+		vm->last_error = YLA_VM_ERROR_STACK_FULL;
 		return 0;
 	}
 	return 1;
@@ -373,7 +373,7 @@ int yla_vm_do_command_internal(yla_vm *vm, yla_cop_type cop)
 				return 0;
 			}
 			if (op1==0) {
-				vm->last_error = ERROR_DIV_BY_ZERO;
+				vm->last_error = YLA_VM_ERROR_DIV_BY_ZERO;
 				return 0;
 			}
 			res = op2 / op1;
@@ -386,7 +386,7 @@ int yla_vm_do_command_internal(yla_vm *vm, yla_cop_type cop)
 			return -1;
 
 		default:
-			vm->last_error = ERROR_UNKNOWN_COMMAND;
+			vm->last_error = YLA_VM_ERROR_UNKNOWN_COMMAND;
 			return 0;
 	}
 	return 1;
@@ -398,19 +398,19 @@ Error messages
 char *yla_vm_error_message(int error_code)
 {
 	switch(error_code) {
-		case ERROR_OK:
+		case YLA_VM_ERROR_OK:
 			return "No error";
-		case ERROR_NO_PROGRAM_CODE:
+		case YLA_VM_ERROR_NO_PROGRAM_CODE:
 			return "No program code";
-		case ERROR_CODE_SEG_EXCEED:
+		case YLA_VM_ERROR_CODE_SEG_EXCEED:
 			return "Code segment exceed";
-		case ERROR_DIV_BY_ZERO:
+		case YLA_VM_ERROR_DIV_BY_ZERO:
 			return "Divide by zero";
-		case ERROR_UNKNOWN_COMMAND:
+		case YLA_VM_ERROR_UNKNOWN_COMMAND:
 			return "Unknown command";
-		case ERROR_STACK_EMPTY:
+		case YLA_VM_ERROR_STACK_EMPTY:
 			return "Empty stack";
-		case ERROR_STACK_FULL:
+		case YLA_VM_ERROR_STACK_FULL:
 			return "Stack full_value";
 		default:
 			return "Unknown error";
