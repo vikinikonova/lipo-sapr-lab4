@@ -17,6 +17,7 @@
 */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "yla_stack.h"
 
 static void dprint();
@@ -99,7 +100,7 @@ int yla_stack_is_full(yla_stack* stack)
 static void dprint(yla_stack* stack)
 {
     int i;
-    printf("stack:{size: %d, count: %d values: ", stack->size, stack->count);
+    printf("stack:{size: %zu, count: %zu values: ", stack->size, stack->count);
     for (i=0; i < stack->count; ++i) {
         printf("%d ", stack->ptr[i]);
     }
