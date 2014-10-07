@@ -33,7 +33,8 @@ MAINOBJ=yla_vm_main.o
 TESTOBJ=\
 yla_tests.o\
 yla_test_test.o\
-yla_stack_test.o
+yla_stack_test.o\
+yla_vm_test1.o
 
 
 .SUFFIXES: .o .c

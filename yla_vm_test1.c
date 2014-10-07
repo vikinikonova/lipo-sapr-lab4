@@ -1,4 +1,6 @@
 /*
+    Virtual machine Test #1
+
     This file is part of YLA VM (Yet another Language for Academic purpose: Virtual Machine).
 
     YLA VM is free software: you can redistribute it and/or modify
@@ -16,16 +18,27 @@
 
 */
 
+#include "yla_vm.h"
+#include "yla_cop.h"
 #include "yla_test.h"
+#include "yla_test_gencode.h"
 
-YLATEST_SUITE_BEGIN(yla_suite)
-  YLATEST_ADD_TEST(yla_test_test)
-  YLATEST_ADD_TEST(yla_stack_test)
-  YLATEST_ADD_TEST(yla_vm_test1)
-YLATEST_SUITE_END
-
-
-int main()
+static int test_init_null()
 {
-	return yla_suite();
+    yla_vm vm;
+
+    YLATEST_ASSERT_FALSE(yla_vm_init(&vm, NULL, 100), "");
 }
+
+static int test_init_0()
+{
+    yla_cop_type code[1];
+    yla_vm vm;
+
+    YLATEST_ASSERT_FALSE(yla_vm_init(&vm, code, 0), "");
+}
+
+YLATEST_BEGIN(yla_vm_test1)
+  YLATEST_ADD_TEST_CASE(test_init_null)
+  YLATEST_ADD_TEST_CASE(test_init_0)
+YLATEST_END
