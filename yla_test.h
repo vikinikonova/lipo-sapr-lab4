@@ -26,14 +26,14 @@
 
 #define YLATEST_ASSERT_TRUE(expr, message) {\
   if (!(expr)) {\
-    printf("%s:%d %s\n", __FILE__, __LINE__, message);\
+    printf("%s:%d '%s' %s\n", __FILE__, __LINE__, #expr, message);\
     return -1;\
   }\
 }
 
 #define YLATEST_ASSERT_FALSE(expr, message) {\
   if ((expr)) {\
-    printf("%s:%d %s\n", __FILE__, __LINE__, message);\
+    printf("%s:%d '%s' %s\n", __FILE__, __LINE__, #expr, message);\
     return -1;\
   }\
 }
