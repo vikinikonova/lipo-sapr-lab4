@@ -34,3 +34,13 @@ void put_value(yla_cop_type** prg, yla_int_type value)
 	for (i=0; i<sizeof(yla_int_type); i++)
 		put_commd(prg, ptr[i]);
 }
+
+void put_header(yla_cop_type** prg, size_t stack_size, size_t vartable_size, size_t code_size)
+{
+    put_value(prg, MAGIC_CODE1);
+    put_value(prg, MAGIC_CODE2);
+    put_value(prg, MAGIC_CODE3);
+    put_value(prg, stack_size);
+    put_value(prg, vartable_size);
+    put_value(prg, code_size);
+}
