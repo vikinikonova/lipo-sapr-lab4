@@ -19,6 +19,8 @@
 #include <stdlib.h>
 #include "yla_stack.h"
 
+static void dprint();
+
 void yla_stack_init(yla_stack* stack, size_t size)
 {
     stack->size = size;
@@ -53,19 +55,25 @@ int yla_stack_pull(yla_stack* stack, yla_int_type *result)
 
 int yla_stack_set_deep(yla_stack* stack, size_t index, yla_int_type value)
 {
-    if (stack->count < index) {
+    if (stack->count == 0) {
         return 0;
     }
-    stack->ptr[1-index] = value;
+    if (index >= stack->count) {
+        return 0;
+    }
+    stack->ptr[stack->count-index-1] = value;
     return 1;
 }
 
 int yla_stack_get_deep(yla_stack* stack, size_t index, yla_int_type *result)
 {
-    if (stack->count < index) {
+    if (stack->count == 0) {
         return 0;
     }
-    *result = stack->ptr[1-index];
+    if (index >= stack->count) {
+        return 0;
+    }
+    *result = stack->ptr[stack->count-index-1];
     return 1;
 }
 
@@ -86,4 +94,14 @@ int yla_stack_is_empty(yla_stack* stack)
 int yla_stack_is_full(yla_stack* stack)
 {
     return stack->count >= stack->size;
+}
+
+static void dprint(yla_stack* stack)
+{
+    int i;
+    printf("stack:{size: %d, count: %d values: ", stack->size, stack->count);
+    for (i=0; i < stack->count; ++i) {
+        printf("%d ", stack->ptr[i]);
+    }
+    printf("}\n");
 }
