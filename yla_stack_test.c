@@ -19,7 +19,7 @@
 #include "yla_stack.h"
 #include "yla_test.h"
 
-int test_init_0()
+static int test_init_0()
 {
     yla_stack stack;
     yla_stack_init(&stack, 0);
@@ -32,7 +32,7 @@ int test_init_0()
     yla_stack_done(&stack);
 }
 
-int test_init_3()
+static int test_init_3()
 {
     yla_stack stack;
     yla_stack_init(&stack, 3);
@@ -47,7 +47,7 @@ int test_init_3()
     yla_stack_done(&stack);
 }
 
-int test_push_pull()
+static int test_push_pull()
 {
     yla_stack stack;
     yla_stack_init(&stack, 3);
@@ -87,7 +87,7 @@ int test_push_pull()
     yla_stack_done(&stack);
 }
 
-int test_deep_0()
+static int test_deep_0()
 {
     yla_stack stack;
     yla_stack_init(&stack, 3);
@@ -103,7 +103,7 @@ int test_deep_0()
     yla_stack_done(&stack);
 }
 
-int test_deep_n()
+static int test_deep_n()
 {
     yla_stack stack;
     yla_stack_init(&stack, 3);

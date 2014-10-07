@@ -19,7 +19,7 @@
 
 #include "yla_test.h"
 
-int test_assertions()
+static int test_assertions()
 {
 	YLATEST_ASSERT_TRUE(1, "true assertion incorrect");
 	YLATEST_ASSERT_FALSE(0, "false assertion incorrect");
@@ -27,7 +27,7 @@ int test_assertions()
 	return 0;
 }
 
-int test_assertions2()
+static int test_assertions2()
 {
 	YLATEST_ASSERT_TRUE(1, "true assertion incorrect");
 
