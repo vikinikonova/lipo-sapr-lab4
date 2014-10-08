@@ -186,7 +186,7 @@ yla_int_type yla_vm_get_value_internal(yla_cop_type *start)
 	unsigned int full_value = 0;
 	size_t i=0;
 	for (i=0; i<sizeof(yla_int_type); ++i) {
-		full_value <<= 1;
+		full_value <<= 8;
 		unsigned char byte = *start++;
 		full_value |= byte;
 	}
@@ -240,19 +240,19 @@ int yla_vm_check_magic(yla_cop_type** program)
 
 int yla_vm_read_sizes(yla_vm *vm, yla_cop_type **program)
 {
-	vm->stack_size = yla_vm_get_value_internal(*program);
-	if (vm->code_size > MAX_STACK_SIZE) {
+	vm->stack_size = (size_t)yla_vm_get_value_internal(*program);
+	if (vm->stack_size > MAX_STACK_SIZE) {
 		return 0;
 	}
 	*program += sizeof(yla_int_type);
 
-	vm->vartable_size = yla_vm_get_value_internal(*program);
+	vm->vartable_size = (size_t)yla_vm_get_value_internal(*program);
 	if (vm->vartable_size > MAX_VARTABLE_SIZE) {
 		return 0;
 	}
 	*program += sizeof(yla_int_type);
 
-	vm->code_size = yla_vm_get_value_internal(*program);
+	vm->code_size = (size_t)yla_vm_get_value_internal(*program);
 	if (vm->code_size > MAX_CODE_SIZE) {
 		return 0;
 	}

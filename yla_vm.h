@@ -32,9 +32,9 @@
 #define MAGIC_CODE3 0x766d
 
 #define HEADER_SIZE ((MAGIC_SIZE + 3) * sizeof(yla_int_type))
-#define MAX_CODE_SIZE 65536
-#define MAX_STACK_SIZE 65536
-#define MAX_VARTABLE_SIZE 65536
+#define MAX_CODE_SIZE ((size_t)65535)
+#define MAX_STACK_SIZE ((size_t)65535)
+#define MAX_VARTABLE_SIZE ((size_t)65535)
 
 #define YLA_VM_ERROR_OK 0
 #define YLA_VM_ERROR_NO_PROGRAM_CODE (-1)
