@@ -133,7 +133,15 @@ int yla_vm_do_command(yla_vm *vm)
 	return yla_vm_do_command_internal(vm, cop);
 }
 
-int yla_vm_last_error_text(yla_vm *vm, char *buf, int buf_len)
+int yla_vm_last_error(yla_vm *vm)
+{
+	if (!vm) {
+		return 0;
+	}
+	return vm->last_error;
+}
+
+int yla_vm_error_text(yla_vm *vm, int error_code, char *buf, int buf_len)
 {
 	char *error_message;
 	int message_len;
@@ -142,7 +150,7 @@ int yla_vm_last_error_text(yla_vm *vm, char *buf, int buf_len)
 		return 0;
 	}
 
-	error_message = yla_vm_error_message(vm->last_error);
+	error_message = yla_vm_error_message(error_code);
 	message_len = strlen(error_message) + 1;
 	if (buf == NULL || buf_len <= message_len) {
 		return message_len;
