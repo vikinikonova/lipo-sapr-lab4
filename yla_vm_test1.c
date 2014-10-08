@@ -60,8 +60,26 @@ static int test_init_0()
     return 0;
 }
 
+static int test_init_simple()
+{
+    yla_cop_type prg[HEADER_SIZE + 1];
+    yla_cop_type *ptr = prg;
+
+    put_header(&ptr, 0, 0, 1);
+    put_commd(&ptr, CHALT);
+
+    yla_vm vm;
+
+    YLATEST_ASSERT_TRUE(yla_vm_init(&vm, prg, HEADER_SIZE + 1), "normal");
+    YLATEST_ASSERT_TRUE(yla_vm_do_command(&vm) == -1, "halt expected")
+    YLATEST_ASSERT_TRUE(yla_vm_done(&vm), "normal");
+
+    return 0;
+}
+
 YLATEST_BEGIN(yla_vm_test1)
   YLATEST_ADD_TEST_CASE(test_gencode)
   YLATEST_ADD_TEST_CASE(test_init_null)
   YLATEST_ADD_TEST_CASE(test_init_0)
+  YLATEST_ADD_TEST_CASE(test_init_simple)
 YLATEST_END
