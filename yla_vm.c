@@ -61,7 +61,7 @@ int yla_vm_init(yla_vm *vm, yla_cop_type *program, size_t program_size)
 	vm->vartable = calloc(vm->vartable_size, sizeof(yla_int_type));
 	vm->code = malloc(vm->code_size);
 	vm->pc = 0;
-	memcpy(vm->code, program + HEADER_SIZE, program_size - HEADER_SIZE);
+	memcpy(vm->code, program + HEADER_SIZE, program_size);
 	
 	vm->last_error = YLA_VM_ERROR_OK;
 
@@ -95,12 +95,12 @@ int yla_vm_run(yla_vm *vm)
 		return 0;
 	}
 
-	if (vm->code) {
-		free(vm->code);
+	if (!vm->code) {
+		return 0;
 	}
 
 	while(1) {
-		if (vm->pc + 1 >= vm->pc) {
+		if (vm->pc + 1 > vm->code_size) {
 			return 0;
 		}
 		yla_cop_type cop = vm->code[vm->pc++];

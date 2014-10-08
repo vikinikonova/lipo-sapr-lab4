@@ -30,10 +30,14 @@ static int test_gencode()
     
     put_commd(&ptr, 0x12);
     put_value(&ptr, 0x3456);
+    put_commd(&ptr, 0x78);
+    put_commd(&ptr, 0x9a);
 
     YLATEST_ASSERT_TRUE(buf[0] == 0x12, "put_commd");
     YLATEST_ASSERT_TRUE(buf[1] == 0x34, "put_value");
     YLATEST_ASSERT_TRUE(buf[2] == 0x56, "put_value");
+    YLATEST_ASSERT_TRUE(buf[3] == 0x78, "put_value");
+    YLATEST_ASSERT_TRUE(buf[4] == 0x9a, "put_value");
     
     return 0;
 }
@@ -77,9 +81,48 @@ static int test_init_simple()
     return 0;
 }
 
+static int test_init_simple2()
+{
+    yla_cop_type prg[HEADER_SIZE + 2];
+    yla_cop_type *ptr = prg;
+
+    put_header(&ptr, 0, 0, 2);
+    put_commd(&ptr, CNOP);
+    put_commd(&ptr, CHALT);
+
+    yla_vm vm;
+
+    YLATEST_ASSERT_TRUE(yla_vm_init(&vm, prg, HEADER_SIZE + 1), "normal");
+    YLATEST_ASSERT_TRUE(yla_vm_do_command(&vm) == 1, "OK expected")
+    YLATEST_ASSERT_TRUE(yla_vm_do_command(&vm) == -1, "halt expected")
+    YLATEST_ASSERT_TRUE(yla_vm_done(&vm), "normal");
+
+    return 0;
+}
+
+static int test_init_simple_run()
+{
+    yla_cop_type prg[HEADER_SIZE + 2];
+    yla_cop_type *ptr = prg;
+
+    put_header(&ptr, 0, 0, 2);
+    put_commd(&ptr, CNOP);
+    put_commd(&ptr, CHALT);
+
+    yla_vm vm;
+
+    YLATEST_ASSERT_TRUE(yla_vm_init(&vm, prg, HEADER_SIZE + 1), "normal");
+    YLATEST_ASSERT_TRUE(yla_vm_run(&vm), "normal")
+    YLATEST_ASSERT_TRUE(yla_vm_done(&vm), "normal");
+
+    return 0;
+}
+
 YLATEST_BEGIN(yla_vm_test1)
   YLATEST_ADD_TEST_CASE(test_gencode)
   YLATEST_ADD_TEST_CASE(test_init_null)
   YLATEST_ADD_TEST_CASE(test_init_0)
   YLATEST_ADD_TEST_CASE(test_init_simple)
+  YLATEST_ADD_TEST_CASE(test_init_simple2)
+  YLATEST_ADD_TEST_CASE(test_init_simple_run)
 YLATEST_END
