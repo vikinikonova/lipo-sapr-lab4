@@ -20,6 +20,7 @@
 
 #include "yla_test_gencode.h"
 #include "yla_type.h"
+#include "yla_vm.h"
 
 void put_commd(yla_cop_type** prg, yla_cop_type value)
 {
@@ -29,10 +30,20 @@ void put_commd(yla_cop_type** prg, yla_cop_type value)
 
 void put_value(yla_cop_type** prg, yla_int_type value)
 {
-	int i;
-	unsigned char* ptr = (unsigned char*)&value;
-	for (i=0; i<sizeof(yla_int_type); i++)
-		put_commd(prg, ptr[i]);
+    // NOTE: it's work OK only if yla_cop_type is 1 byte
+    int i;
+    unsigned int mask = 0xff;
+    unsigned int int_value = value;
+
+    mask <<= (8*(sizeof(unsigned int)-1));
+    int_value <<= (8*(sizeof(unsigned int) - sizeof(yla_int_type)));
+
+    for (i=0; i<sizeof(yla_int_type); ++i) {
+        unsigned int only_value = (int_value & mask);
+        only_value >>= (8*(sizeof(unsigned int)-1));
+        put_commd(prg, only_value);
+        int_value <<= 8;
+    }
 }
 
 void put_header(yla_cop_type** prg, size_t stack_size, size_t vartable_size, size_t code_size)

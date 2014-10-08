@@ -23,11 +23,30 @@
 #include "yla_test.h"
 #include "yla_test_gencode.h"
 
+static int test_gencode()
+{
+    char buf[100];
+    char *ptr = buf;
+    
+    put_commd(&ptr, 0x12);
+    put_value(&ptr, 0x3456);
+
+    YLATEST_ASSERT_TRUE(buf[0] == 0x12, "put_commd");
+    YLATEST_ASSERT_TRUE(buf[1] == 0x34, "put_value");
+    YLATEST_ASSERT_TRUE(buf[2] == 0x56, "put_value");
+    
+    return 0;
+}
+
 static int test_init_null()
 {
     yla_vm vm;
+    char buf[100];
 
-    YLATEST_ASSERT_FALSE(yla_vm_init(&vm, NULL, 100), "");
+    YLATEST_ASSERT_FALSE(yla_vm_init(&vm, NULL, 100), "init NULL");
+    YLATEST_ASSERT_TRUE(yla_vm_last_error(&vm)==YLA_VM_ERROR_NO_PROGRAM_CODE, "init NULL");
+    
+    return 0;
 }
 
 static int test_init_0()
@@ -35,10 +54,14 @@ static int test_init_0()
     yla_cop_type code[1];
     yla_vm vm;
 
-    YLATEST_ASSERT_FALSE(yla_vm_init(&vm, code, 0), "");
+    YLATEST_ASSERT_FALSE(yla_vm_init(&vm, code, 0), "init 0 size code");
+    YLATEST_ASSERT_TRUE(yla_vm_last_error(&vm)==YLA_VM_ERROR_NO_PROGRAM_CODE, "init 0 size code");
+
+    return 0;
 }
 
 YLATEST_BEGIN(yla_vm_test1)
+  YLATEST_ADD_TEST_CASE(test_gencode)
   YLATEST_ADD_TEST_CASE(test_init_null)
   YLATEST_ADD_TEST_CASE(test_init_0)
 YLATEST_END

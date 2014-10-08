@@ -22,6 +22,7 @@
 #define yla_test_gencode_h
 
 #include "yla_type.h"
+#include <stddef.h>
 
 void put_commd(yla_cop_type** prg, yla_cop_type value);
 
