@@ -79,7 +79,7 @@ int yla_vm_done(yla_vm *vm)
 	}
 
 	if (vm->vartable) {
-		free(vm->code);
+		free(vm->vartable);
 	}
 
 	yla_stack_done(&vm->stack);
