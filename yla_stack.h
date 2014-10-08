@@ -20,7 +20,6 @@
 #define _yla_stack_h
 
 #include <stddef.h>
-#include <stdint.h>
 
 #include "yla_type.h"
 

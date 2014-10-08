@@ -23,6 +23,8 @@
 
 #include "yla_stack.h"
 #include "yla_cop.h"
+#include "yla_type.h"
+#include <stddef.h>
 
 #define MAGIC_SIZE 3
 #define MAGIC_CODE1 0x796c
