@@ -1,5 +1,5 @@
 /*
-    Virtual Machine
+    Virtual Machine main
 
     This file is part of YLA VM (Yet another Language for Academic purpose: Virtual Machine).
 
