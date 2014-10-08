@@ -25,8 +25,8 @@
 
 static int test_gencode()
 {
-    char buf[100];
-    char *ptr = buf;
+    yla_cop_type buf[100];
+    yla_cop_type *ptr = buf;
     
     put_commd(&ptr, 0x12);
     put_value(&ptr, 0x3456);
@@ -41,7 +41,7 @@ static int test_gencode()
 static int test_init_null()
 {
     yla_vm vm;
-    char buf[100];
+    yla_cop_type buf[100];
 
     YLATEST_ASSERT_FALSE(yla_vm_init(&vm, NULL, 100), "init NULL");
     YLATEST_ASSERT_TRUE(yla_vm_last_error(&vm)==YLA_VM_ERROR_NO_PROGRAM_CODE, "init NULL");
