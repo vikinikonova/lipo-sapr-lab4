@@ -118,6 +118,45 @@ static int test_init_simple_run()
     return 0;
 }
 
+static int test_push()
+{
+    yla_cop_type prg[HEADER_SIZE + 4];
+    yla_cop_type *ptr = prg;
+
+    put_header(&ptr, 1, 0, 4);
+    put_commd(&ptr, CPUSH);
+    put_value(&ptr, 0x1234);
+    put_commd(&ptr, CHALT);
+
+    yla_vm vm;
+
+    YLATEST_ASSERT_TRUE(yla_vm_init(&vm, prg, HEADER_SIZE + 1), "normal");
+    YLATEST_ASSERT_TRUE(yla_vm_run(&vm), "normal")
+    YLATEST_ASSERT_TRUE(yla_vm_done(&vm), "normal");
+
+    return 0;
+}
+
+static int test_get_stack_full()
+{
+    yla_cop_type prg[HEADER_SIZE + 4];
+    yla_cop_type *ptr = prg;
+
+    put_header(&ptr, 0, 0, 4);
+    put_commd(&ptr, CPUSH);
+    put_value(&ptr, 0x1234);
+    put_commd(&ptr, CHALT);
+
+    yla_vm vm;
+
+    YLATEST_ASSERT_TRUE(yla_vm_init(&vm, prg, HEADER_SIZE + 1), "normal");
+    YLATEST_ASSERT_FALSE(yla_vm_run(&vm), "normal")
+    YLATEST_ASSERT_TRUE(yla_vm_last_error(&vm) == YLA_VM_ERROR_STACK_FULL, "incorrect error code");
+    YLATEST_ASSERT_TRUE(yla_vm_done(&vm), "normal");
+
+    return 0;
+}
+
 YLATEST_BEGIN(yla_vm_test1)
   YLATEST_ADD_TEST_CASE(test_gencode)
   YLATEST_ADD_TEST_CASE(test_init_null)
@@ -125,4 +164,6 @@ YLATEST_BEGIN(yla_vm_test1)
   YLATEST_ADD_TEST_CASE(test_init_simple)
   YLATEST_ADD_TEST_CASE(test_init_simple2)
   YLATEST_ADD_TEST_CASE(test_init_simple_run)
+  YLATEST_ADD_TEST_CASE(test_push)
+  YLATEST_ADD_TEST_CASE(test_get_stack_full)
 YLATEST_END

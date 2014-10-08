@@ -101,6 +101,7 @@ int yla_vm_run(yla_vm *vm)
 
 	while(1) {
 		if (vm->pc + 1 > vm->code_size) {
+			vm->last_error = YLA_VM_ERROR_CODE_SEG_EXCEED;
 			return 0;
 		}
 		yla_cop_type cop = vm->code[vm->pc++];
@@ -127,6 +128,7 @@ int yla_vm_do_command(yla_vm *vm)
 	}
 
 	if (vm->pc + 1 > vm->code_size) {
+		vm->last_error = YLA_VM_ERROR_CODE_SEG_EXCEED;
 		return 0;
 	}
 	yla_cop_type cop = vm->code[vm->pc++];
@@ -171,7 +173,7 @@ Get values
 */
 int yla_vm_get_value(yla_vm *vm, yla_int_type *value)
 {
-	if (vm->pc + sizeof(yla_int_type) >= vm->pc) {
+	if (vm->pc + sizeof(yla_int_type) > vm->code_size) {
 		vm->last_error = YLA_VM_ERROR_CODE_SEG_EXCEED;
 		return 0;
 	}
