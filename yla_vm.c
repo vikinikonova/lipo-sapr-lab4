@@ -61,7 +61,12 @@ int yla_vm_init(yla_vm *vm, yla_cop_type *program, size_t program_size)
 	vm->vartable = calloc(vm->vartable_size, sizeof(yla_int_type));
 	vm->code = malloc(vm->code_size);
 	vm->pc = 0;
-	memcpy(vm->code, program + HEADER_SIZE, program_size);
+	if (program_size < HEADER_SIZE + vm->code_size) {
+		vm->last_error = YLA_VM_ERROR_NO_PROGRAM_CODE;
+		return 0;
+	}
+
+	memcpy(vm->code, program + HEADER_SIZE, vm->code_size);
 	
 	vm->last_error = YLA_VM_ERROR_OK;
 
