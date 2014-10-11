@@ -112,7 +112,6 @@ int yla_vm_run(yla_vm *vm)
 		yla_cop_type cop = vm->code[vm->pc];
 		vm->pc++;
 
-		printf("process code: %x pc: %x\n", cop, vm->pc);
 		cmd_result = yla_vm_do_command_internal(vm, cop);
 		
 		if (cmd_result == -1) {
