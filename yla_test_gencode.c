@@ -21,6 +21,7 @@
 #include "yla_test_gencode.h"
 #include "yla_type.h"
 #include "yla_vm.h"
+#include <stdio.h>
 
 void put_commd(yla_cop_type** prg, yla_cop_type value)
 {
@@ -55,3 +56,21 @@ void put_header(yla_cop_type** prg, size_t stack_size, size_t vartable_size, siz
     put_value(prg, vartable_size);
     put_value(prg, code_size);
 }
+
+void code_dump(yla_cop_type *buf, size_t size)
+{
+    int i;
+    for (i=0; i<size;) {
+        unsigned char byte = buf[i];
+        printf("%02x", byte);
+        ++i;
+        if (i%16) {
+            printf(" ");
+        }
+        else {
+            printf("\n");
+        }
+    }
+    printf("\n");
+}
+
