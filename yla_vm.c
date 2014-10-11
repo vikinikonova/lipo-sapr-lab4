@@ -109,8 +109,10 @@ int yla_vm_run(yla_vm *vm)
 			vm->last_error = YLA_VM_ERROR_CODE_SEG_EXCEED;
 			return 0;
 		}
-		yla_cop_type cop = vm->code[vm->pc++];
+		yla_cop_type cop = vm->code[vm->pc];
+		vm->pc++;
 
+		printf("process code: %x pc: %x\n", cop, vm->pc);
 		cmd_result = yla_vm_do_command_internal(vm, cop);
 		
 		if (cmd_result == -1) {
@@ -212,7 +214,7 @@ int yla_vm_get_value(yla_vm *vm, yla_int_type *value)
 		return 0;
 	}
 	
-	*value = yla_vm_get_value_internal(vm->code);
+	*value = yla_vm_get_value_internal(&(vm->code[vm->pc]));
 	vm->pc += sizeof(yla_int_type);
 
 	return 1;
@@ -360,7 +362,7 @@ int yla_vm_do_command_internal(yla_vm *vm, yla_cop_type cop)
 
 	switch(cop) {
 
-		case CNOP:	
+		case CNOP:
 			break;
 
 		case CPUSH:
