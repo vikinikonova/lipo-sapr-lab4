@@ -119,6 +119,15 @@ int yla_vm_last_error(yla_vm *vm);
  **/
 int yla_vm_error_text(yla_vm *vm, int error_code, char *buf, int buf_len);
 
+/**
+ * Returns trace of current int_value stack.
+ * @param vm virtual machine structure
+ * @param stack_trace buffer for store stack trace
+ * @param stack_trace_size maximum number of values for stack_trace array
+ * @return -1 if unexpected error occurred, 0 if all OK. or number of values required for stack_trace if unsuit
+ **/
+int yla_vm_stack_trace(yla_vm *vm, yla_int_type *stack_trace, size_t stack_trace_size);
+
 /*
 TODO: Add/Remove breakpoints
 */

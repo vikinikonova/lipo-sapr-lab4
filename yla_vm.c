@@ -109,7 +109,8 @@ int yla_vm_run(yla_vm *vm)
 			vm->last_error = YLA_VM_ERROR_CODE_SEG_EXCEED;
 			return 0;
 		}
-		yla_cop_type cop = vm->code[vm->pc++];
+		yla_cop_type cop = vm->code[vm->pc];
+		vm->pc++;
 
 		cmd_result = yla_vm_do_command_internal(vm, cop);
 		
@@ -169,6 +170,35 @@ int yla_vm_error_text(yla_vm *vm, int error_code, char *buf, int buf_len)
 	return 0;
 }
 
+int yla_vm_stack_trace(yla_vm *vm, yla_int_type *stack_trace, size_t stack_trace_size)
+{
+	size_t i;
+
+	if (!vm) {
+		return -1;
+	}
+
+	size_t stack_size = yla_stack_count(&vm->stack);
+
+	if (stack_size == 0) {
+		return 0;
+	}
+
+	if (stack_trace == NULL || stack_trace_size < stack_size) {
+		return stack_size;
+	}
+
+	for (i=0; i<stack_size; ++i) {
+		yla_int_type value;
+		if (!yla_stack_get_deep(&vm->stack, i, &value)) {
+			return -1;
+		}
+		stack_trace[i] = value;
+	}
+	return 0;
+}
+
+
 /*
 Private functions
 */
@@ -183,7 +213,7 @@ int yla_vm_get_value(yla_vm *vm, yla_int_type *value)
 		return 0;
 	}
 	
-	*value = yla_vm_get_value_internal(vm->code);
+	*value = yla_vm_get_value_internal(&(vm->code[vm->pc]));
 	vm->pc += sizeof(yla_int_type);
 
 	return 1;
@@ -331,7 +361,7 @@ int yla_vm_do_command_internal(yla_vm *vm, yla_cop_type cop)
 
 	switch(cop) {
 
-		case CNOP:	
+		case CNOP:
 			break;
 
 		case CPUSH:

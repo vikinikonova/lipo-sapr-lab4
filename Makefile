@@ -35,7 +35,8 @@ yla_tests.o\
 yla_test_test.o\
 yla_stack_test.o\
 yla_test_gencode.o\
-yla_vm_test1.o
+yla_vm_test1.o\
+yla_vm_test_stack_trace.o
 
 
 .SUFFIXES: .o .c

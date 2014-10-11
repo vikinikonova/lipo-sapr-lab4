@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include "yla_stack.h"
 
-static void dprint();
+static void dprint(yla_stack* stack);
 
 void yla_stack_init(yla_stack* stack, size_t size)
 {
@@ -99,10 +99,15 @@ int yla_stack_is_full(yla_stack* stack)
     return stack->count >= stack->size;
 }
 
+int yla_stack_count(yla_stack *stack)
+{
+    return stack->count;
+}
+
 static void dprint(yla_stack* stack)
 {
     int i;
-    printf("stack:{size: %zu, count: %zu values: ", stack->size, stack->count);
+    printf("stack(%p):{size: %zu, count: %zu values: ", stack, stack->size, stack->count);
     for (i=0; i < stack->count; ++i) {
         printf("%d ", stack->ptr[i]);
     }
