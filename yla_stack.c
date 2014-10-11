@@ -99,6 +99,11 @@ int yla_stack_is_full(yla_stack* stack)
     return stack->count >= stack->size;
 }
 
+int yla_stack_count(yla_stack *stack)
+{
+    return stack->count;
+}
+
 static void dprint(yla_stack* stack)
 {
     int i;
