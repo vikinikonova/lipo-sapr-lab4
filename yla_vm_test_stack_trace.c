@@ -70,6 +70,7 @@ static int test_push()
     put_commd(&ptr, CPUSH);
     put_value(&ptr, 0x1234);
     put_commd(&ptr, CHALT);
+    code_dump(prg, HEADER_SIZE + 4);
 
     yla_vm vm;
 
