@@ -43,6 +43,7 @@
 #define YLA_VM_ERROR_UNKNOWN_COMMAND (-4)
 #define YLA_VM_ERROR_STACK_EMPTY (-5)
 #define YLA_VM_ERROR_STACK_FULL (-6)
+#define YLA_VM_ERROR_VAR_OVERFLOW (-7)
 
 /*
 Executable program structure:
@@ -127,6 +128,24 @@ int yla_vm_error_text(yla_vm *vm, int error_code, char *buf, int buf_len);
  * @return -1 if unexpected error occurred, 0 if all OK. or number of values required for stack_trace if unsuit
  **/
 int yla_vm_stack_trace(yla_vm *vm, yla_int_type *stack_trace, size_t stack_trace_size);
+
+/**
+ * Set value to global var.
+ * @param vm virtual machine structure
+ * @param var_index index of global var
+ * @param value value to set
+ * @return 0: error, 1: ok
+ **/
+int yla_vm_set_var(yla_vm *vm, size_t var_index, yla_int_type value);
+
+/**
+ * Get global var's value.
+ * @param vm virtual machine structure
+ * @param var_index index of global var
+ * @param value pointer to save value
+ * @return 0: error, 1: ok
+ **/
+int yla_vm_get_var(yla_vm *vm, size_t var_index, yla_int_type *value);
 
 /*
 TODO: Add/Remove breakpoints
