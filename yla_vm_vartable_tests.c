@@ -23,6 +23,16 @@
 #include "yla_test.h"
 #include "yla_test_gencode.h"
 
+static int test_zero_vm()
+{
+    yla_int_type result = -1;
+
+    YLATEST_ASSERT_FALSE(yla_vm_set_var(NULL, 0, 10), "zero vm");
+    YLATEST_ASSERT_FALSE(yla_vm_get_var(NULL, 0, &result), "zero vm");
+
+    return 0;
+}
+
 static int test_zero_table()
 {
     yla_cop_type prg[HEADER_SIZE + 1];
@@ -46,5 +56,6 @@ static int test_zero_table()
 }
 
 YLATEST_BEGIN(yla_vm_vartable_tests)
+  YLATEST_ADD_TEST_CASE(test_zero_vm)
   YLATEST_ADD_TEST_CASE(test_zero_table)
 YLATEST_END
