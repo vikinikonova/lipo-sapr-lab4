@@ -1,5 +1,5 @@
 /*
-    Tests runner
+    Virtual machine Test #1
 
     This file is part of YLA VM (Yet another Language for Academic purpose: Virtual Machine).
 
@@ -18,18 +18,33 @@
 
 */
 
+#include "yla_vm.h"
+#include "yla_cop.h"
 #include "yla_test.h"
+#include "yla_test_gencode.h"
 
-YLATEST_SUITE_BEGIN(yla_suite)
-  YLATEST_ADD_TEST(yla_test_test)
-  YLATEST_ADD_TEST(yla_stack_test)
-  YLATEST_ADD_TEST(yla_vm_test1)
-  YLATEST_ADD_TEST(yla_vm_test_stack_trace)
-  YLATEST_ADD_TEST(yla_vm_vartable_tests)
-YLATEST_SUITE_END
-
-
-int main()
+static int test_zero_table()
 {
-	return yla_suite();
+    yla_cop_type prg[HEADER_SIZE + 1];
+    yla_cop_type *ptr = prg;
+    yla_int_type result = -1;
+
+    put_header(&ptr, 0, 0, 1);
+    put_commd(&ptr, CHALT);
+
+    yla_vm vm;
+
+    yla_vm_init(&vm, prg, HEADER_SIZE + 1);
+
+    YLATEST_ASSERT_FALSE(yla_vm_set_var(&vm, 0, 10), "set 0 for zero var table");
+    YLATEST_ASSERT_FALSE(yla_vm_get_var(&vm, 0, &result), "set 0 for zero var table");
+
+    yla_vm_do_command(&vm);
+    yla_vm_done(&vm);
+
+    return 0;
 }
+
+YLATEST_BEGIN(yla_vm_vartable_tests)
+  YLATEST_ADD_TEST_CASE(test_zero_table)
+YLATEST_END
