@@ -446,7 +446,7 @@ int yla_vm_do_command_internal(yla_vm *vm, yla_cop_type cop)
 			if (!yla_vm_get_value(vm, &op1)) {
 				return 0;
 			}
-			if (!yla_vm_get_var_internal(&vm, (size_t)op1, &res)) {
+			if (!yla_vm_get_var_internal(vm, (size_t)op1, &res)) {
 				return 0;
 			}
 			if (!yla_vm_stack_push(vm, res)) {
