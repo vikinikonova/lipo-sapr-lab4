@@ -84,14 +84,12 @@ static int test_table_ok()
     test_table_ok_internal(7432);
 }
 
-static int test_load_ok()
+static int test_load_ok_internal(yla_int_type val)
 {
-    yla_int_type val = 10;
-
     yla_cop_type prg[HEADER_SIZE + 4];
     yla_cop_type *ptr = prg;
 
-    yla_int_type result = -1;
+    yla_int_type result = (yla_int_type)-1;
     yla_int_type buf[100];
 
     put_header(&ptr, 1, 1, 4);
@@ -114,6 +112,16 @@ static int test_load_ok()
 
     yla_vm_do_command(&vm);
     yla_vm_done(&vm);
+
+    return 0;
+}
+
+static int test_load_ok()
+{
+    YLATEST_ASSERT_FALSE(test_load_ok_internal(0), "0");
+    YLATEST_ASSERT_FALSE(test_load_ok_internal(3841), "random value");
+    YLATEST_ASSERT_FALSE(test_load_ok_internal((yla_int_type)-1), "-1");
+    YLATEST_ASSERT_FALSE(test_load_ok_internal(1), "1");
 
     return 0;
 }
