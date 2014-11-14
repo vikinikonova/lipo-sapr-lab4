@@ -25,7 +25,7 @@
 
 static int test_zero_vm()
 {
-    yla_int_type result = -1;
+    yla_int_type result = (yla_int_type) -1;
 
     YLATEST_ASSERT_FALSE(yla_vm_set_var(NULL, 0, 10), "zero vm");
     YLATEST_ASSERT_FALSE(yla_vm_get_var(NULL, 0, &result), "zero vm");
@@ -37,7 +37,7 @@ static int test_zero_table()
 {
     yla_cop_type prg[HEADER_SIZE + 1];
     yla_cop_type *ptr = prg;
-    yla_int_type result = -1;
+    yla_int_type result = (yla_int_type) -1;
 
     put_header(&ptr, 0, 0, 1);
     put_commd(&ptr, CHALT);
@@ -59,7 +59,7 @@ static int test_table_ok_internal(yla_int_type val)
 {
     yla_cop_type prg[HEADER_SIZE + 1];
     yla_cop_type *ptr = prg;
-    yla_int_type result = -1;
+    yla_int_type result = (yla_int_type) -1;
 
     put_header(&ptr, 0, 1, 1);
     put_commd(&ptr, CHALT);
@@ -84,6 +84,8 @@ static int test_table_ok()
     YLATEST_ASSERT_FALSE(test_table_ok_internal(1), "1");
     YLATEST_ASSERT_FALSE(test_table_ok_internal((yla_int_type)-1), "-1");
     YLATEST_ASSERT_FALSE(test_table_ok_internal(7432), "7432");
+
+    return 0;
 }
 
 static int test_load_ok_internal(yla_int_type val)

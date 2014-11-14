@@ -20,11 +20,9 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 #include "yla_cop.h"
 #include "yla_vm.h"
-#include "yla_type.h"
 
 
 int yla_vm_get_value(yla_vm *vm, yla_int_type *value);
@@ -153,7 +151,7 @@ int yla_vm_last_error(yla_vm *vm)
 int yla_vm_error_text(yla_vm *vm, int error_code, char *buf, int buf_len)
 {
 	char *error_message;
-	int message_len;
+	size_t message_len;
 
 	if (!vm) {
 		return 0;
@@ -162,7 +160,7 @@ int yla_vm_error_text(yla_vm *vm, int error_code, char *buf, int buf_len)
 	error_message = yla_vm_error_message(error_code);
 	message_len = strlen(error_message) + 1;
 	if (buf == NULL || buf_len <= message_len) {
-		return message_len;
+		return (int) message_len;
 	}
 
 	strcpy(buf, error_message);
@@ -185,7 +183,7 @@ int yla_vm_stack_trace(yla_vm *vm, yla_int_type *stack_trace, size_t stack_trace
 	}
 
 	if (stack_trace == NULL || stack_trace_size < stack_size) {
-		return stack_size;
+		return (int) stack_size;
 	}
 
 	for (i=0; i<stack_size; ++i) {
@@ -238,7 +236,7 @@ int yla_vm_get_value(yla_vm *vm, yla_int_type *value)
 
 yla_int_type yla_vm_get_value_internal(yla_cop_type *start)
 {
-	unsigned int full_value = 0;
+	yla_int_type full_value = 0;
 	size_t i=0;
 	for (i=0; i<sizeof(yla_int_type); ++i) {
 		full_value <<= 8;
@@ -339,6 +337,8 @@ int yla_vm_set_var_internal(yla_vm *vm, size_t index, yla_int_type value)
 	}
 
 	vm->vartable[index] = value;
+
+    return 0;
 }
 
 /*

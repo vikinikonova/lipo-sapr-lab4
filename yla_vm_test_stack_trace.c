@@ -56,7 +56,7 @@ static int test_zero_stack()
 static void fill_int_type_arr(yla_int_type *buf, size_t size, yla_int_type value)
 {
     int i;
-    for (i=0; i<100; i++) {
+    for (i=0; i<size; i++) {
         buf[i] = value;
     }
 }
@@ -75,7 +75,7 @@ static int test_push()
     yla_vm vm;
 
     yla_int_type buf[100];
-    fill_int_type_arr(buf, 100, -1);
+    fill_int_type_arr(buf, 100, (yla_int_type) -1);
 
     YLATEST_ASSERT_TRUE(yla_vm_init(&vm, prg, HEADER_SIZE + 4), "normal");
     YLATEST_ASSERT_TRUE(yla_vm_run(&vm), "normal")

@@ -26,13 +26,13 @@ static int test_init_0()
     yla_stack stack;
     yla_stack_init(&stack, 0);
 
-    yla_int_type result = 0;
-
     YLATEST_ASSERT_TRUE(yla_stack_is_empty(&stack), "stack must be empty after pull last value");
     YLATEST_ASSERT_TRUE(yla_stack_count(&stack)==0, "stack must be empty just after creatin");
     YLATEST_ASSERT_TRUE(yla_stack_is_full(&stack), "stack couldn't be full after last pull");
 
     yla_stack_done(&stack);
+
+    return 0;
 }
 
 static int test_init_3()
@@ -49,6 +49,8 @@ static int test_init_3()
     YLATEST_ASSERT_FALSE(yla_stack_pull(&stack, &result), "couldn't pull value from empty stack");
 
     yla_stack_done(&stack);
+
+    return 0;
 }
 
 static int test_push_pull()
@@ -97,6 +99,8 @@ static int test_push_pull()
     YLATEST_ASSERT_FALSE(yla_stack_is_full(&stack), "stack couldn't be full after last pull");
 
     yla_stack_done(&stack);
+
+    return 0;
 }
 
 static int test_deep_0()
@@ -113,6 +117,8 @@ static int test_deep_0()
     YLATEST_ASSERT_FALSE(yla_stack_set_deep(&stack, 0, 99), "for empty stack");
 
     yla_stack_done(&stack);
+
+    return 0;
 }
 
 static int test_deep_n()
@@ -185,6 +191,8 @@ static int test_deep_n()
 
 
     yla_stack_done(&stack);
+
+    return 0;
 }
 
 YLATEST_BEGIN(yla_stack_test)

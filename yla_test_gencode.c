@@ -19,7 +19,6 @@
 */
 
 #include "yla_test_gencode.h"
-#include "yla_type.h"
 #include "yla_vm.h"
 #include <stdio.h>
 
@@ -42,7 +41,7 @@ void put_value(yla_cop_type** prg, yla_int_type value)
     for (i=0; i<sizeof(yla_int_type); ++i) {
         unsigned int only_value = (int_value & mask);
         only_value >>= (8*(sizeof(unsigned int)-1));
-        put_commd(prg, only_value);
+        put_commd(prg, (yla_cop_type) only_value);
         int_value <<= 8;
     }
 }
@@ -52,9 +51,9 @@ void put_header(yla_cop_type** prg, size_t stack_size, size_t vartable_size, siz
     put_value(prg, MAGIC_CODE1);
     put_value(prg, MAGIC_CODE2);
     put_value(prg, MAGIC_CODE3);
-    put_value(prg, stack_size);
-    put_value(prg, vartable_size);
-    put_value(prg, code_size);
+    put_value(prg, (yla_int_type) stack_size);
+    put_value(prg, (yla_int_type) vartable_size);
+    put_value(prg, (yla_int_type) code_size);
 }
 
 void code_dump(yla_cop_type *buf, size_t size)
