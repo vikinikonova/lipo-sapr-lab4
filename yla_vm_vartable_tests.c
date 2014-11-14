@@ -128,9 +128,52 @@ static int test_load_ok()
     return 0;
 }
 
+static int test_save_ok_internal(yla_int_type val)
+{
+    yla_cop_type prg[HEADER_SIZE + 7];
+    yla_cop_type *ptr = prg;
+
+    yla_int_type result = (yla_int_type)-1;
+    yla_int_type buf[100];
+
+    put_header(&ptr, 1, 1, 7);
+    put_commd(&ptr, CPUSH);
+    put_value(&ptr, val);
+    put_commd(&ptr, CSAVE);
+    put_value(&ptr, 0x0);
+    put_commd(&ptr, CHALT);
+
+    yla_vm vm;
+
+    YLATEST_ASSERT_TRUE(yla_vm_init(&vm, prg, HEADER_SIZE + 7), "init");
+
+    YLATEST_ASSERT_TRUE(yla_vm_do_command(&vm) == 1, "PUSH");
+    YLATEST_ASSERT_TRUE(yla_vm_do_command(&vm) == 1, "SAVE");
+
+    YLATEST_ASSERT_TRUE(yla_vm_stack_trace(&vm, buf, 0) == 0, "stack must have 0 values");
+    YLATEST_ASSERT_TRUE(yla_vm_get_var(&vm, 0, &result), "get value from VM must work OK");
+    YLATEST_ASSERT_TRUE(result == val, "var changed after load");
+
+    yla_vm_do_command(&vm);
+    yla_vm_done(&vm);
+
+    return 0;
+}
+
+static int test_save_ok()
+{
+    YLATEST_ASSERT_FALSE(test_save_ok_internal(0), "0");
+    YLATEST_ASSERT_FALSE(test_save_ok_internal(3841), "random value");
+    YLATEST_ASSERT_FALSE(test_save_ok_internal((yla_int_type)-1), "-1");
+    YLATEST_ASSERT_FALSE(test_save_ok_internal(1), "1");
+
+    return 0;
+}
+
 YLATEST_BEGIN(yla_vm_vartable_tests)
   YLATEST_ADD_TEST_CASE(test_zero_vm)
   YLATEST_ADD_TEST_CASE(test_zero_table)
   YLATEST_ADD_TEST_CASE(test_table_ok)
   YLATEST_ADD_TEST_CASE(test_load_ok)
+  YLATEST_ADD_TEST_CASE(test_save_ok)
 YLATEST_END

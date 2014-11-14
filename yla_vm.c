@@ -454,6 +454,18 @@ int yla_vm_do_command_internal(yla_vm *vm, yla_cop_type cop)
 			}
 			break;
 
+        case CSAVE:
+            if (!yla_vm_get_value(vm, &op1)) {
+                return 0;
+            }
+            if (!yla_vm_stack_pull(vm, &res)) {
+                return 0;
+            }
+            if (!yla_vm_set_var_internal(vm, (size_t)op1, res)) {
+                return 0;
+            }
+            break;
+
 		case CHALT:
 			return -1;
 
