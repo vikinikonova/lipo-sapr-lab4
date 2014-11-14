@@ -45,7 +45,6 @@ static int test_gencode()
 static int test_init_null()
 {
     yla_vm vm;
-    yla_cop_type buf[100];
 
     YLATEST_ASSERT_FALSE(yla_vm_init(&vm, NULL, 100), "init NULL");
     YLATEST_ASSERT_TRUE(yla_vm_last_error(&vm)==YLA_VM_ERROR_NO_PROGRAM_CODE, "init NULL");
