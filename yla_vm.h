@@ -22,7 +22,6 @@
 #define _yla_vm_h
 
 #include "yla_stack.h"
-#include "yla_cop.h"
 #include "yla_type.h"
 #include <stddef.h>
 
