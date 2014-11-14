@@ -115,8 +115,8 @@ int yla_vm_last_error(yla_vm *vm);
  * @param vm virtual machine structure
  * @param error_code code of error occurred
  * @param buf pointer to char to buffer to fill last error text
- * @param buf_len lenght of buffer to fill
- * @return 0 if all ok or required buffer lenght to error message if unsuite
+ * @param buf_len length of buffer to fill
+ * @return 0 if all ok or required buffer length to error message if less
  **/
 int yla_vm_error_text(yla_vm *vm, int error_code, char *buf, int buf_len);
 
