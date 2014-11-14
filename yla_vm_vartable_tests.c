@@ -44,7 +44,7 @@ static int test_zero_table()
 
     yla_vm vm;
 
-    yla_vm_init(&vm, prg, HEADER_SIZE + 1);
+    YLATEST_ASSERT_TRUE(yla_vm_init(&vm, prg, HEADER_SIZE + 1), "init");
 
     YLATEST_ASSERT_FALSE(yla_vm_set_var(&vm, 0, 10), "set 0 for zero var table");
     YLATEST_ASSERT_FALSE(yla_vm_get_var(&vm, 0, &result), "set 0 for zero var table");
@@ -66,7 +66,7 @@ static int test_table_ok_internal(yla_int_type val)
 
     yla_vm vm;
 
-    yla_vm_init(&vm, prg, HEADER_SIZE + 1);
+    YLATEST_ASSERT_TRUE(yla_vm_init(&vm, prg, HEADER_SIZE + 1), "init");
 
     YLATEST_ASSERT_TRUE(yla_vm_set_var(&vm, 0, val), "set 0 for zero var table");
     YLATEST_ASSERT_TRUE(yla_vm_get_var(&vm, 0, &result), "set 0 for zero var table");
@@ -101,7 +101,7 @@ static int test_load_ok_internal(yla_int_type val)
 
     yla_vm vm;
 
-    yla_vm_init(&vm, prg, HEADER_SIZE + 4);
+    YLATEST_ASSERT_TRUE(yla_vm_init(&vm, prg, HEADER_SIZE + 4), "init");
 
     YLATEST_ASSERT_TRUE(yla_vm_set_var(&vm, 0, val), "set 0 for non-zero var table");
 
