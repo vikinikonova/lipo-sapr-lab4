@@ -29,8 +29,8 @@
 
 int yla_vm_get_value(yla_vm *vm, yla_int_type *value);
 
-int yla_vm_set_var(yla_vm *vm, size_t index, yla_int_type value);
-int yla_vm_get_var(yla_vm *vm, size_t index, yla_int_type *value);
+int yla_vm_set_var_internal(yla_vm *vm, size_t index, yla_int_type value);
+int yla_vm_get_var_internal(yla_vm *vm, size_t index, yla_int_type *value);
 
 yla_int_type yla_vm_get_value_internal(yla_cop_type *start);
 
@@ -198,6 +198,23 @@ int yla_vm_stack_trace(yla_vm *vm, yla_int_type *stack_trace, size_t stack_trace
 	return 0;
 }
 
+int yla_vm_set_var(yla_vm *vm, size_t var_index, yla_int_type value)
+{
+	if (!vm) {
+		return 0;
+	}
+
+	return yla_vm_set_var_internal(vm, var_index, value);
+}
+
+int yla_vm_get_var(yla_vm *vm, size_t var_index, yla_int_type *value)
+{
+	if (!vm) {
+		return 0;
+	}
+
+	return yla_vm_get_var_internal(vm, var_index, value);
+}
 
 /*
 Private functions
@@ -302,12 +319,10 @@ int yla_vm_read_sizes(yla_vm *vm, yla_cop_type **program)
 /*
 Vartable
 */
-int yla_vm_get_var(yla_vm *vm, size_t index, yla_int_type *value)
+int yla_vm_get_var_internal(yla_vm *vm, size_t index, yla_int_type *value)
 {
-	if (!vm) {
-		return 0;
-	}
 	if (index >= vm->vartable_size) {
+		vm->last_error = YLA_VM_ERROR_VAR_OVERFLOW;
 		return 0;
 	}
 
@@ -316,12 +331,10 @@ int yla_vm_get_var(yla_vm *vm, size_t index, yla_int_type *value)
 	return 1;
 }
 
-int yla_vm_set_var(yla_vm *vm, size_t index, yla_int_type value)
+int yla_vm_set_var_internal(yla_vm *vm, size_t index, yla_int_type value)
 {
-	if (!vm) {
-		return 0;
-	}
 	if (index >= vm->vartable_size) {
+		vm->last_error = YLA_VM_ERROR_VAR_OVERFLOW;
 		return 0;
 	}
 
@@ -428,6 +441,30 @@ int yla_vm_do_command_internal(yla_vm *vm, yla_cop_type cop)
 				return 0;
 			}
 			break;
+
+		case CLOAD:
+			if (!yla_vm_get_value(vm, &op1)) {
+				return 0;
+			}
+			if (!yla_vm_get_var_internal(vm, (size_t)op1, &res)) {
+				return 0;
+			}
+			if (!yla_vm_stack_push(vm, res)) {
+				return 0;
+			}
+			break;
+
+        case CSAVE:
+            if (!yla_vm_get_value(vm, &op1)) {
+                return 0;
+            }
+            if (!yla_vm_stack_pull(vm, &res)) {
+                return 0;
+            }
+            if (!yla_vm_set_var_internal(vm, (size_t)op1, res)) {
+                return 0;
+            }
+            break;
 
 		case CHALT:
 			return -1;
