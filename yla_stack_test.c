@@ -26,8 +26,6 @@ static int test_init_0()
     yla_stack stack;
     yla_stack_init(&stack, 0);
 
-    yla_int_type result = 0;
-
     YLATEST_ASSERT_TRUE(yla_stack_is_empty(&stack), "stack must be empty after pull last value");
     YLATEST_ASSERT_TRUE(yla_stack_count(&stack)==0, "stack must be empty just after creatin");
     YLATEST_ASSERT_TRUE(yla_stack_is_full(&stack), "stack couldn't be full after last pull");
