@@ -20,11 +20,9 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 #include "yla_cop.h"
 #include "yla_vm.h"
-#include "yla_type.h"
 
 
 int yla_vm_get_value(yla_vm *vm, yla_int_type *value);

@@ -19,7 +19,6 @@
 */
 
 #include "yla_test_gencode.h"
-#include "yla_type.h"
 #include "yla_vm.h"
 #include <stdio.h>
 
