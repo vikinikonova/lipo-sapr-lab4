@@ -339,6 +339,8 @@ int yla_vm_set_var_internal(yla_vm *vm, size_t index, yla_int_type value)
 	}
 
 	vm->vartable[index] = value;
+
+    return 0;
 }
 
 /*

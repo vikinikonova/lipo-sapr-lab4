@@ -84,6 +84,8 @@ static int test_table_ok()
     YLATEST_ASSERT_FALSE(test_table_ok_internal(1), "1");
     YLATEST_ASSERT_FALSE(test_table_ok_internal((yla_int_type)-1), "-1");
     YLATEST_ASSERT_FALSE(test_table_ok_internal(7432), "7432");
+
+    return 0;
 }
 
 static int test_load_ok_internal(yla_int_type val)
