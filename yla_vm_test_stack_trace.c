@@ -75,7 +75,7 @@ static int test_push()
     yla_vm vm;
 
     yla_int_type buf[100];
-    fill_int_type_arr(buf, 100, -1);
+    fill_int_type_arr(buf, 100, (yla_int_type) -1);
 
     YLATEST_ASSERT_TRUE(yla_vm_init(&vm, prg, HEADER_SIZE + 4), "normal");
     YLATEST_ASSERT_TRUE(yla_vm_run(&vm), "normal")
