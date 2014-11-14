@@ -56,7 +56,7 @@ static int test_zero_stack()
 static void fill_int_type_arr(yla_int_type *buf, size_t size, yla_int_type value)
 {
     int i;
-    for (i=0; i<100; i++) {
+    for (i=0; i<size; i++) {
         buf[i] = value;
     }
 }
