@@ -103,7 +103,7 @@ int yla_vm_run(yla_vm *vm);
 int yla_vm_do_command(yla_vm *vm);
 
 /**
- * Returns text of last error.
+ * Returns code of last error.
  * @param vm virtual machine structure
  * @return integer value error code
  **/
